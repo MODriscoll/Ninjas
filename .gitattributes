@@ -1,0 +1,2 @@
+# Track all assets in contents folder
+Content/** filter=lfs diff=lfs merge=lfs -text
