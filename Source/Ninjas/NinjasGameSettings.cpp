@@ -2,5 +2,5 @@
 
 UNinjasGameSettings::UNinjasGameSettings()
 {
-	DefaultPlaneConstraintAxis = EPlaneConstraintAxisSetting::X;
+	DefaultPlaneConstraintAxis = EPlaneConstraintAxisSetting::UseGlobalPhysicsSetting;
 }
