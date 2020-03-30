@@ -24,6 +24,10 @@ public:
 
 public:
 	
+	/** If this character is dead */
+	UFUNCTION(BlueprintPure, Category = "Character")
+	bool IsDead() const;
+
 	/** Set the state of this characters ragdoll */
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void SetRagdollEnabled(bool bEnable);
@@ -39,6 +43,15 @@ public:
 	/** If this character is in a ragdoll state */
 	UFUNCTION(BlueprintPure, Category = "Character")
 	virtual bool IsRagdolling() const;
+
+	/** If this character automatically ragdolls on death */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool bRagdollOnDeath;
+
+	/** If ragdolling on death, how long to remain before auto despawn.
+	If zero, this character will not be auto destroyed and will need to be manually destroyed */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character", meta=(EditCondition="bRagdollOnDeath"))
+	float RagdollLife;
 
 private:
 

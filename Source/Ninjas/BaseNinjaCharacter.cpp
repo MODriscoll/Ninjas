@@ -1,5 +1,6 @@
 #include "BaseNinjaCharacter.h"
 #include "HealthComponent.h"
+#include "NinjasGameSettings.h"
 
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -7,6 +8,9 @@
 
 ABaseNinjaCharacter::ABaseNinjaCharacter()
 {
+	bRagdollOnDeath = true;
+	RagdollLife = 10.f;
+
 	// Configure capsule
 	UCapsuleComponent* CapsuleComp = GetCapsuleComponent();
 	CapsuleComp->InitCapsuleSize(42.f, 96.0f);
@@ -22,9 +26,18 @@ ABaseNinjaCharacter::ABaseNinjaCharacter()
 	MovementComp->MaxWalkSpeed = 600.f;
 	MovementComp->MaxFlySpeed = 600.f;
 
+	// Limit movement (this is a 2D game)
+	MovementComp->bConstrainToPlane = true;
+	MovementComp->SetPlaneConstraintAxisSetting(GetDefault<UNinjasGameSettings>()->DefaultPlaneConstraintAxis);
+
 	// Create health component
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
 	HealthComponent->OnDeath.AddDynamic(this, &ABaseNinjaCharacter::OnDeath);
+}
+
+bool ABaseNinjaCharacter::IsDead() const
+{
+	return HealthComponent->IsDead();
 }
 
 void ABaseNinjaCharacter::SetRagdollEnabled(bool bEnable)
@@ -98,5 +111,12 @@ bool ABaseNinjaCharacter::IsRagdolling() const
 
 void ABaseNinjaCharacter::OnDeath(UHealthComponent* HealthComp)
 {
-	EnterRagdoll();
+	if (bRagdollOnDeath)
+	{
+		EnterRagdoll();
+		if (RagdollLife > 0.f)
+		{
+			SetLifeSpan(RagdollLife);
+		}
+	}
 }
