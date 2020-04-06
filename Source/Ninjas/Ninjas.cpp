@@ -1,7 +1,20 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
-
 #include "Ninjas.h"
+
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, Ninjas, "Ninjas" );
+DEFINE_LOG_CATEGORY(LogNinjas);
+
+class FNinjasModule : public IModuleInterface
+{
+public:
+
+	// Begin IModule Interface
+	virtual bool IsGameModule() const override
+	{
+		return true;
+	}
+	// End IModule Interface
+};
+
+IMPLEMENT_PRIMARY_GAME_MODULE(FNinjasModule, Ninjas, "Ninjas");
  

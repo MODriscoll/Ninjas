@@ -20,6 +20,7 @@ public:
 
 	ABaseNinjaCharacter();
 
+	/** Get this characters health */
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 public:

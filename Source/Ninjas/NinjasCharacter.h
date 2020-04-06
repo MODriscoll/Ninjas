@@ -1,5 +1,3 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -18,6 +16,10 @@ class ANinjasCharacter : public ABaseNinjaCharacter
 	/** Camera boom positioning the camera beside the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
+
+	/** Spawner for when throwing a projectile */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Weapons, meta =(AllowPrivateAccess = "true"))
+	class UProjectileSpawnerComponent* ProjectileSpawner;
 
 protected:
 
@@ -39,7 +41,9 @@ public:
 	ANinjasCharacter();
 
 	/** Returns SideViewCameraComponent subobject **/
-	FORCEINLINE class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
+	class UCameraComponent* GetSideViewCameraComponent() const { return SideViewCameraComponent; }
 	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Returns ProjectileSpawner subobject */
+	class UProjectileSpawnerComponent* GetProjectileSpawner() const { return ProjectileSpawner; }
 };

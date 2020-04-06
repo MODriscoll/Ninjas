@@ -1,6 +1,6 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
-
 #include "NinjasCharacter.h"
+#include "ProjectileSpawnerComponent.h"
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
@@ -30,6 +30,8 @@ ANinjasCharacter::ANinjasCharacter()
 	SideViewCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("SideViewCamera"));
 	SideViewCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	SideViewCameraComponent->bUsePawnControlRotation = false; // We don't want the controller rotating the camera
+
+	ProjectileSpawner = CreateDefaultSubobject<UProjectileSpawnerComponent>(TEXT("ProjectileSpawner"));
 }
 
 //////////////////////////////////////////////////////////////////////////
