@@ -65,4 +65,10 @@ private:
 	/** Component responsible for components movement */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta=(AllowPrivateAccess="true"))
 	class UProjectileMovementComponent* MovementComponent;
+
+public:
+
+	/** Reflects this projectile with additional changes */
+	UFUNCTION(BlueprintCallable, Category = "Weapons|Projectile")
+	void Reflect(bool bResetLifespan);
 };

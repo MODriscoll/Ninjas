@@ -92,3 +92,15 @@ void AProjectileBase::OnHit(AActor* SelfActor, AActor* OtherActor, FVector Norma
 		BP_OnActorHit(OtherActor, NormalImpulse, Hit);
 	}
 }
+
+void AProjectileBase::Reflect(bool bResetLifespan)
+{
+	// Quick method for now, in future we might want to use a normal
+	// TODO: Look into UProjectileMovementComponent::HandleDeflection
+	MovementComponent->Velocity = -MovementComponent->Velocity;
+
+	if (bResetLifespan)
+	{
+		SetLifeSpan(InitialLifeSpan);
+	}
+}

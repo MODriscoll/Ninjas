@@ -18,6 +18,12 @@ public:
 	
 	UProjectileSpawnerComponent();
 
+	// Begin UObject Interface
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+	// End UObject Interface
+
 	// Begin UActorComponent Interface
 	virtual void BeginPlay() override;
 	// End UActorComponent Interface
@@ -37,6 +43,10 @@ public:
 	/** Resets the cached source spawn component */
 	UFUNCTION(BlueprintCallable, Category = "Spawner")
 	USceneComponent* ResetSpawnSourceComponent();
+
+	/** If a new projectile can be spawned */
+	UFUNCTION(BlueprintPure, Category = "Spawner")
+	virtual bool CanSpawnProjectile() const;
 
 public:
 
@@ -61,6 +71,38 @@ private:
 	/** Cached reference to spawn source component */
 	TWeakObjectPtr<class USceneComponent> CachedSpawnSource;
 
-// TODO: Add a fire handler (so spawn projectile can't be spammed).
-// TODO: Add a feature to enable a timer that works based of fire rate (this is useful for testing)
+public:
+
+	/** Set this spawner to automatically start spawning projectiles */
+	UFUNCTION(BlueprintCallable, Category = "Spawner")
+	void SetAutomaticSpawning(bool bEnable);
+
+protected:
+
+	/** If this spawner is currently set to automatically spawn */
+	bool IsAutomaticallySpawning() const;
+
+	/** The delay to use to prevent projectiles from begin spammed.
+	Can be set to zero to allow for no delay between spawns */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta=(ClampMin="0"))
+	float SpawnDelay;
+
+	/** Should this spawner start as automatically spawning projectiles? */
+	UPROPERTY(EditAnywhere, AdvancedDisplay)
+	bool bStartWithAutomaticSpawning;
+
+private:
+
+	/** Implementation for handling setting auto spawning */
+	void SetAutomaticSpawningImpl(bool bEnable);
+
+	/** Tick from timer manager to spawn another projectile */
+	UFUNCTION()
+	void OnAutomaticSpawnTick();
+
+	/** The last time a projectile was spawned */
+	float LastSpawnTime;
+
+	/** Timer handle that manages automatic spawning */
+	FTimerHandle Handle_AutomaticSpawning;
 };
